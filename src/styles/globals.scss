@@ -2,6 +2,29 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  
 }
 
-// TODO
+html {
+  background: var(--gray-180);
+}
+
+:root {
+  --gray-180: #282c34;
+  --white-900: #F8F8F8;
+  --fucsia-600: #FF57B2;
+  --info-700: #BBBBBB;
+  --gray-800: #D7D7D7;
+}
+
+@media (max-width: 1080px) {
+  html {
+    font-size: 93.75%;
+  }
+}
+
+@media (max-width: 720px) {
+  html {
+    font-size: 83.5%;
+  }
+}
