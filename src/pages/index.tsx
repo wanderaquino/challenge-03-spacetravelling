@@ -33,11 +33,11 @@ export default function Home() {
       <Head>
         <title>Home | SpaceTravelling</title>
       </Head>
-      <main className={styles.postContainer}>
+      <main className={styles.posts}>
         
-        <div className={styles.postContent}>
-          <a className={styles.postContentHeading} href="">Como utilizar useEffect</a>
-          <div className={styles.postContentFooter}>
+        <div className={styles.postCardContainer}>
+          <a className={styles.postCardHeading} href="/post/1">Como utilizar useEffect</a>
+          <div className={styles.postCardFooter}>
             
             <span className={styles.uploadedAt}>
               <MdDateRange color="#BBBBBB" size="20px"/>
@@ -51,9 +51,9 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.postContent}>
-          <a className={styles.postContentHeading} href="">Criando um APP CRA do Zero</a>
-          <div className={styles.postContentFooter}>
+        <div className={styles.postCardContainer}>
+          <a className={styles.postCardHeading} href="">Criando um APP CRA do Zero</a>
+          <div className={styles.postCardFooter}>
             
             <span className={styles.uploadedAt}>
               <MdDateRange color="#BBBBBB" size="20px"/>
@@ -67,9 +67,9 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.postContent}>
-          <a className={styles.postContentHeading} href="">Como utilizar hooks</a>
-          <div className={styles.postContentFooter}>
+        <div className={styles.postCardContainer}>
+          <a className={styles.postCardHeading} href="">Como utilizar hooks</a>
+          <div className={styles.postCardFooter}>
             
             <span className={styles.uploadedAt}>
               <MdDateRange color="#BBBBBB" size="20px"/>
