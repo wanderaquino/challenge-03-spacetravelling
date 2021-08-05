@@ -26,22 +26,60 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
+
 export default function Home() {
   return (
     <>
       <Head>
         <title>Home | SpaceTravelling</title>
       </Head>
-      <main>
-        <div className={styles.postContainer}>
-          <div className={styles.post}>
-            <span>Como utilizar hooks</span>
-            <div className={styles.postFooter}>
-              <MdDateRange />
-              <span>15 Mar 2021</span>
-              <FiUser />
-              <span>Danilo Vieira</span>
-            </div>
+      <main className={styles.postContainer}>
+        
+        <div className={styles.postContent}>
+          <a className={styles.postContentHeading} href="">Como utilizar useEffect</a>
+          <div className={styles.postContentFooter}>
+            
+            <span className={styles.uploadedAt}>
+              <MdDateRange color="#BBBBBB" size="20px"/>
+              01 Ago 2021
+            </span>
+
+            <span className={styles.userInfo}>
+              <FiUser color="#BBBBBB" size="20px"/>
+              Danilo Vieira
+            </span>
+          </div>
+        </div>
+
+        <div className={styles.postContent}>
+          <a className={styles.postContentHeading} href="">Criando um APP CRA do Zero</a>
+          <div className={styles.postContentFooter}>
+            
+            <span className={styles.uploadedAt}>
+              <MdDateRange color="#BBBBBB" size="20px"/>
+              01 Jul 2021
+            </span>
+
+            <span className={styles.userInfo}>
+              <FiUser color="#BBBBBB" size="20px"/>
+              Danilo Vieira
+            </span>
+          </div>
+        </div>
+
+        <div className={styles.postContent}>
+          <a className={styles.postContentHeading} href="">Como utilizar hooks</a>
+          <div className={styles.postContentFooter}>
+            
+            <span className={styles.uploadedAt}>
+              <MdDateRange color="#BBBBBB" size="20px"/>
+              15 Jun 2021
+            </span>
+
+            <span className={styles.userInfo}>
+              <FiUser color="#BBBBBB" size="20px"/>
+              Danilo Vieira
+            </span>
           </div>
         </div>
       </main>
