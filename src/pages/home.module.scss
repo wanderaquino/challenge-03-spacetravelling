@@ -1,21 +1,21 @@
-.postContainer {
+.posts {
     width: 100%;
     max-width: 1120px;
     margin: 0 auto;
     padding: 0 4rem;
 }
 
-.postContent {
+.postCardContainer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 6.75rem;
 
-    & + .postContent {
+    & + .postCardContainer {
         margin-top: 3rem;
     }
 
-   .postContentHeading {
+   .postCardHeading {
         font-size: 1.75rem;
         font-weight: 700;
         color: var(--white-900);
@@ -23,7 +23,7 @@
         text-decoration: none;
     }
 
-    .postContentFooter {
+    .postCardFooter {
         display: flex;
         align-items: center;
 
