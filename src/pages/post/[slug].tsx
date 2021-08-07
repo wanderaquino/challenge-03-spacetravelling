@@ -8,6 +8,9 @@ import {MdDateRange} from "react-icons/md";
 import {FiUser} from "react-icons/fi";
 import {BiTime} from "react-icons/bi";
 import Head from "next/head";
+import Prismic from "@prismicio/client"
+import { RichText } from 'prismic-dom';
+import { format } from 'date-fns';
 
 
 interface Post {
@@ -31,24 +34,32 @@ interface PostProps {
   post: Post;
 }
 
-export default function Post() {
+export default function Post({post}: PostProps) {
+  function getReadingTime (post) {
+    const postContent = post.content;
+    const readTime = postContent.reduce((acc, content) => {
+      const reading = content.heading;
+      const body = content.body;  
+    }, 0)
+  }
+
   return (
     <>
     <Head>
-      <title>Post 1 | SpaceTravelling</title>
+      <title>{post.data.title} | SpaceTravelling</title>
     </Head>
 
     <div className={styles.postBanner}>
-    <img src="/images/banner.png" />
+    <img src={post.data.banner.url}/>
     </div>
 
     <article className={styles.postContent}>
       <div className={styles.postHeader}>
-        <h1>Criando um App CRA do Zero</h1>
+        <h1>{post.data.title}</h1>
         <div className={styles.postInfo}>
           <span className={styles.uploadedAt}>
             <MdDateRange color="#BBBBBB" size="20px"/>
-            01 Ago 2021
+            {post.first_publication_date}
           </span>
           <span className={styles.userInfo}>
             <FiUser color="#BBBBBB" size="20px"/>
@@ -122,16 +133,45 @@ export default function Post() {
   )
 }
 
-// export const getStaticPaths = async () => {
-//   const prismic = getPrismicClient();
-//   const posts = await prismic.query(TODO);
+export const getStaticPaths = async () => {
+  const prismic = getPrismicClient();
+  const posts = await prismic.query(
+    Prismic.Predicates.at("document.type", "post")
+  );
 
-//   // TODO
-// };
+  const postResponseSlug = posts.results.map(post => {
+      return {
+        params: { slug: post.uid
+        }
+      }
+  });
 
-// export const getStaticProps = async context => {
-//   const prismic = getPrismicClient();
-//   const response = await prismic.getByUID(TODO);
+  return {
+    paths: postResponseSlug,
+    fallback: true
+  }
+};
 
-//   // TODO
-// };
+export const getStaticProps = async ({params}) => {
+  const prismic = getPrismicClient();
+  const postContent = await prismic.getByUID("post", String(params.slug), {});
+
+  const formatedPost = {
+    first_publication_date: format(new Date(postContent.first_publication_date), "d MMM yyyy"),
+    data: {
+      title: postContent.data.title,
+      banner: {
+        url: String(postContent.data.banner.url)
+      },
+      author: postContent.data.author,
+      content: postContent.data.content,
+    }
+
+  }
+
+  return {
+    props: {
+      post: formatedPost 
+    }
+  }
+};
