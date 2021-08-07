@@ -5,6 +5,8 @@ import {FiUser} from "react-icons/fi";
 
 import { GetStaticProps } from 'next';
 import { getPrismicClient } from '../services/prismic';
+import Prismic from "@prismicio/client";
+
 import commonStyles from '../styles/common.module.scss';
 
 interface Post {
@@ -27,7 +29,7 @@ interface HomeProps {
 }
 
 
-export default function Home() {
+export default function Home({results} : PostPagination) {
   return (
     <>
       <Head>
@@ -87,9 +89,32 @@ export default function Home() {
   )
 }
 
-// export const getStaticProps = async () => {
-//   // const prismic = getPrismicClient();
-//   // const postsResponse = await prismic.query(TODO);
+export const getStaticProps = async () => {
+  const prismic = getPrismicClient();
+  const postsResponse = await prismic.query(
+    Prismic.predicates.at("document.type", "post"),
+    {
+      pageSize: 2
+    }
+  );
 
-//   // TODO
-// };
+  const allPosts = postsResponse.results.map(post => {
+    return {
+      uid: post.uid,
+      first_publication_date: post.first_publication_date,
+      data: {
+        title: post.data.title,
+        subtitle: post.data.subtitle,
+        author: post.data.author
+      }
+    } as Post
+  })
+
+  console.log(JSON.stringify(allPosts , null, 4))
+
+  return {
+    props: {
+      allPosts
+    }
+  }
+};
