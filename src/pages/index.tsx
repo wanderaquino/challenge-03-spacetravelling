@@ -31,7 +31,7 @@ interface HomeProps {
 
 
 export default function Home({postsPagination} : HomeProps) {
-  console.log("Dentro do Componente: ", postsPagination);
+  
   return (
     <>
       <Head>
