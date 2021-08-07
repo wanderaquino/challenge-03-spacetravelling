@@ -2,10 +2,11 @@ import Head from "next/head";
 import styles from './home.module.scss';
 import {MdDateRange} from "react-icons/md";
 import {FiUser} from "react-icons/fi";
-
 import { GetStaticProps } from 'next';
 import { getPrismicClient } from '../services/prismic';
 import Prismic from "@prismicio/client";
+import {format} from "date-fns";
+import ptBR from "date-fns/locale/pt-BR"
 
 import commonStyles from '../styles/common.module.scss';
 
@@ -29,99 +30,80 @@ interface HomeProps {
 }
 
 
-export default function Home({results} : PostPagination) {
+export default function Home({postsPagination} : HomeProps) {
+  console.log("Dentro do Componente: ", postsPagination);
   return (
     <>
       <Head>
         <title>Home | SpaceTravelling</title>
       </Head>
       <main className={styles.posts}>
-        
-        <div className={styles.postCardContainer}>
-          <a className={styles.postCardHeading} href="/post/1">Como utilizar useEffect</a>
-          <div className={styles.postCardFooter}>
-            
-            <span className={styles.uploadedAt}>
-              <MdDateRange color="#BBBBBB" size="20px"/>
-              01 Ago 2021
-            </span>
+        {postsPagination.results.map(
+          post => 
+          (
+            <div key= {post.uid} className={styles.postCardContainer}>
+              <a className={styles.postCardHeading} 
+                href={`/post/${post.uid}`}>{post.data.title}</a>
+              <div className={styles.postCardFooter}>
+                
+                <span className={styles.uploadedAt}>
+                  <MdDateRange color="#BBBBBB" size="20px"/>
+                  {post.first_publication_date}
+                </span>
+    
+                <span className={styles.userInfo}>
+                  <FiUser color="#BBBBBB" size="20px"/>
+                  {post.data.author}
+                </span>
+              </div>
+            </div>
+          )
+        )}
 
-            <span className={styles.userInfo}>
-              <FiUser color="#BBBBBB" size="20px"/>
-              Danilo Vieira
-            </span>
-          </div>
-        </div>
-
-        <div className={styles.postCardContainer}>
-          <a className={styles.postCardHeading} href="">Criando um APP CRA do Zero</a>
-          <div className={styles.postCardFooter}>
-            
-            <span className={styles.uploadedAt}>
-              <MdDateRange color="#BBBBBB" size="20px"/>
-              01 Jul 2021
-            </span>
-
-            <span className={styles.userInfo}>
-              <FiUser color="#BBBBBB" size="20px"/>
-              Danilo Vieira
-            </span>
-          </div>
-        </div>
-
-        <div className={styles.postCardContainer}>
-          <a className={styles.postCardHeading} href="">Como utilizar hooks</a>
-          <div className={styles.postCardFooter}>
-            
-            <span className={styles.uploadedAt}>
-              <MdDateRange color="#BBBBBB" size="20px"/>
-              15 Jun 2021
-            </span>
-
-            <span className={styles.userInfo}>
-              <FiUser color="#BBBBBB" size="20px"/>
-              Danilo Vieira
-            </span>
-          </div>
-        </div>
-
-        <button 
+        {postsPagination.next_page && (
+          <button 
           className={styles.postButton}type="button" 
           onClick={e => console.log("Opa!")}>
           Carregar mais posts
         </button>
-
+        )}
       </main>
     </>
   )
 }
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const prismic = getPrismicClient();
   const postsResponse = await prismic.query(
     Prismic.predicates.at("document.type", "post"),
     {
-      pageSize: 2
+      pageSize: 5
     }
   );
 
-  const allPosts = postsResponse.results.map(post => {
+  const posts = postsResponse.results.map(post => {
+    const formatedDate = 
+    format(new Date(post.first_publication_date), 
+    "d MMM yyyy", 
+    {locale: ptBR});
+
     return {
       uid: post.uid,
-      first_publication_date: post.first_publication_date,
+      first_publication_date: formatedDate,
       data: {
         title: post.data.title,
         subtitle: post.data.subtitle,
         author: post.data.author
       }
-    } as Post
+    }
   })
 
-  console.log(JSON.stringify(allPosts , null, 4))
-
   return {
-    props: {
-      allPosts
+    props: { 
+      postsPagination: {
+      next_page: postsResponse.next_page,
+      results: posts
+      }
     }
   }
 };
