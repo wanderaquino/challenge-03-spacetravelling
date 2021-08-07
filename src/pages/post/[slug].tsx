@@ -6,7 +6,9 @@ import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
 import {MdDateRange} from "react-icons/md";
 import {FiUser} from "react-icons/fi";
-import {BiTime} from "react-icons/bi"
+import {BiTime} from "react-icons/bi";
+import Head from "next/head";
+
 
 interface Post {
   first_publication_date: string | null;
@@ -32,6 +34,9 @@ interface PostProps {
 export default function Post() {
   return (
     <>
+    <Head>
+      <title>Post 1 | SpaceTravelling</title>
+    </Head>
 
     <div className={styles.postBanner}>
     <img src="/images/banner.png" />
