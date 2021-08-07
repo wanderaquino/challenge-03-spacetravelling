@@ -84,6 +84,13 @@ export default function Home({results} : PostPagination) {
             </span>
           </div>
         </div>
+
+        <button 
+          className={styles.postButton}type="button" 
+          onClick={e => console.log("Opa!")}>
+          Carregar mais posts
+        </button>
+
       </main>
     </>
   )
