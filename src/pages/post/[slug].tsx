@@ -9,8 +9,8 @@ import {FiUser} from "react-icons/fi";
 import {BiTime} from "react-icons/bi";
 import Head from "next/head";
 import Prismic from "@prismicio/client"
-import { RichText } from 'prismic-dom';
 import { format } from 'date-fns';
+import ptBR from "date-fns/locale/pt-BR"
 
 
 interface Post {
@@ -35,13 +35,38 @@ interface PostProps {
 }
 
 export default function Post({post}: PostProps) {
+
   function getReadingTime (post) {
-    const postContent = post.content;
-    const readTime = postContent.reduce((acc, content) => {
-      const reading = content.heading;
-      const body = content.body;  
-    }, 0)
+
+    //Heading Counter
+    const headingWords = post.data.content.reduce((acc, content) => {
+      const headings = content.heading.split(" ");
+      return acc.concat(
+        headings.filter(heading => {
+          return heading.length > 1;
+        })
+      );
+    }, []);
+
+    //Body Counter
+    const body = post.data.content.reduce((acc, content) => {
+      return acc.concat(content.body);
+    }, []);
+
+    const textWords = body.reduce((acc, body) => {
+      const splitedText = body.text.split(" ");
+      const filteredText = splitedText.filter(text => {
+        return text.length > 1;
+      })
+
+      return acc.concat(filteredText);
+
+    }, []);
+    
+    return Math.round((headingWords.length + textWords.length) / 200);
   }
+
+  const readTime = getReadingTime(post);
 
   return (
     <>
@@ -50,7 +75,7 @@ export default function Post({post}: PostProps) {
     </Head>
 
     <div className={styles.postBanner}>
-    <img src={post.data.banner.url}/>
+      <img src={post.data.banner.url}/>
     </div>
 
     <article className={styles.postContent}>
@@ -63,15 +88,14 @@ export default function Post({post}: PostProps) {
           </span>
           <span className={styles.userInfo}>
             <FiUser color="#BBBBBB" size="20px"/>
-            Danilo Vieira
+            {post.data.author}
           </span>
           <span className={styles.userInfo}>
             <BiTime color="#BBBBBB" size="20px"/>
-            5 min
+            {readTime} min
           </span>
         </div>
       </div>
-
       <article className={styles.postFirstGroup}>
         <h2>Proin Et Varius</h2>
         <p>
@@ -157,7 +181,7 @@ export const getStaticProps = async ({params}) => {
   const postContent = await prismic.getByUID("post", String(params.slug), {});
 
   const formatedPost = {
-    first_publication_date: format(new Date(postContent.first_publication_date), "d MMM yyyy"),
+    first_publication_date: format(new Date(postContent.first_publication_date), "d MMM yyyy", {locale: ptBR}),
     data: {
       title: postContent.data.title,
       banner: {
@@ -166,7 +190,6 @@ export const getStaticProps = async ({params}) => {
       author: postContent.data.author,
       content: postContent.data.content,
     }
-
   }
 
   return {
