@@ -1,9 +1,15 @@
 .postBanner {
     margin-bottom: 5rem;
-    
-    img {
-        width: 100%;
-    }
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto 2rem auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: center;
+
+        img{
+            max-width: inherit;
+        }
 }
 
 .postContent {
