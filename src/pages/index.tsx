@@ -98,10 +98,10 @@ export default function Home({postsPagination} : HomeProps) {
 
         {next_page && (
           <button 
-          className={styles.postButton}type="button" 
-          onClick={() => getNextPosts(next_page)}>
-          Carregar mais posts
-        </button>
+            className={styles.postButton}type="button" 
+            onClick={() => getNextPosts(next_page)}>
+            Carregar mais posts
+          </button>
         )}
       </main>
     </>

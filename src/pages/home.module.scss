@@ -1,23 +1,25 @@
 .posts {
     width: 100%;
     max-width: 720px;
-    margin: 0 auto 4rem auto;
+    height: calc(100vh - 8rem);
+    margin: 0 auto;
     padding: 0 2rem;
+    position: relative;
 }
 
 .postCardContainer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 6.75rem;
 
     & + .postCardContainer {
-        margin-top: 4rem;
+        margin-top: 3rem;
     }
 
     & + .postButton {
-        margin-top: 4rem;
+        margin-top: 3rem;
     }
+
    .postCardHeading {
         font-size: 1.75rem;
         font-weight: 700;
@@ -58,7 +60,10 @@
                 margin-right: .2rem;
             }
         }
+    }
 
+    &:last-child{
+        padding-bottom: 2rem;
     }
 }
 
