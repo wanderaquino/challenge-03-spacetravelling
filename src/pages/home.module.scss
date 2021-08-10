@@ -1,7 +1,7 @@
 .posts {
     width: 100%;
     max-width: 720px;
-    margin: 0 auto;
+    margin: 0 auto 4rem auto;
     padding: 0 2rem;
 }
 
@@ -12,19 +12,31 @@
     height: 6.75rem;
 
     & + .postCardContainer {
-        margin-top: 3rem;
+        margin-top: 4rem;
     }
 
     & + .postButton {
         margin-top: 4rem;
     }
-
    .postCardHeading {
         font-size: 1.75rem;
         font-weight: 700;
         color: var(--white-900);
         line-height: 2.118rem;
         text-decoration: none;
+
+        & + .postSubtitle {
+            margin-top: 1rem;
+        }
+    }
+
+    .postSubtitle{
+        color: var(--info-700);
+        font-size: 1rem;
+
+        & + .postCardFooter {
+            margin-top: 1rem;
+        }
     }
 
     .postCardFooter {
