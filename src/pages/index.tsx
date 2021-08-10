@@ -76,8 +76,10 @@ export default function Home({postsPagination} : HomeProps) {
           post => 
           (
             <div key= {post.uid} className={styles.postCardContainer}>
-              <a className={styles.postCardHeading} 
-                href={`/post/${post.uid}`}>{post.data.title}</a>
+              <a className={styles.postCardHeading} href={`/post/${post.uid}`}>{post.data.title}</a>
+
+              <span className={styles.postSubtitle}>{post.data.subtitle}</span>
+
               <div className={styles.postCardFooter}>
                 
                 <span className={styles.uploadedAt}>
