@@ -11,6 +11,7 @@ import Head from "next/head";
 import Prismic from "@prismicio/client"
 import { format } from 'date-fns';
 import ptBR from "date-fns/locale/pt-BR"
+import { RichText } from 'prismic-dom';
 
 
 interface Post {
@@ -96,62 +97,16 @@ export default function Post({post}: PostProps) {
           </span>
         </div>
       </div>
-      <article className={styles.postFirstGroup}>
-        <h2>Proin Et Varius</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-          Ex assumenda ullam nam nobis cupiditate eum dolorem, 
-          repellat quasi, cum expedita modi deserunt omnis totam reprehenderit dolore? 
-          Eum unde ea odio?
-        </p>
-      </article>
-
-      <article className={styles.postSecondGroup}>
-        <h2>Proin Et Varius</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-          Ex assumenda ullam nam nobis cupiditate eum dolorem, 
-          repellat quasi, cum expedita modi deserunt omnis totam reprehenderit dolore? 
-          Eum unde ea odio?
-        </p>
-
-        <h2>Proin Et Varius</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-          Ex assumenda ullam nam nobis cupiditate eum dolorem, 
-          repellat quasi, cum expedita modi deserunt omnis totam reprehenderit dolore? 
-          Eum unde ea odio?
-        </p>
-
-        <h2>Proin Et Varius</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-          Ex assumenda ullam nam nobis cupiditate eum dolorem, 
-          repellat quasi, cum expedita modi deserunt omnis totam reprehenderit dolore? 
-          Eum unde ea odio?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-          Ex assumenda ullam nam nobis cupiditate eum dolorem, 
-          repellat quasi, cum expedita modi deserunt omnis totam reprehenderit dolore? 
-          Eum unde ea odio?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-          Ex assumenda ullam nam nobis cupiditate eum dolorem, 
-          repellat quasi, cum expedita modi deserunt omnis totam reprehenderit dolore? 
-          Eum unde ea odio?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-          Ex assumenda ullam nam nobis cupiditate eum dolorem, 
-          repellat quasi, cum expedita modi deserunt omnis totam reprehenderit dolore? 
-          Eum unde ea odio?
-        </p>
-
-        <h2>Proin Et Varius</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-          Ex assumenda ullam nam nobis cupiditate eum dolorem, 
-          repellat quasi, cum expedita modi deserunt omnis totam reprehenderit dolore? 
-          Eum unde ea odio?
-        </p>
-      </article>
-
+      {post.data.content.map(content => (
+        <>
+        <article className={styles.postText}>
+          <h2>{content.heading}</h2>
+          <div dangerouslySetInnerHTML = {
+            {__html: RichText.asHtml(content.body)}
+          }></div>
+        </article>
+        </>
+      ))}
     </article>
     </>
   )
@@ -180,7 +135,7 @@ export const getStaticProps = async ({params}) => {
   const prismic = getPrismicClient();
   const postContent = await prismic.getByUID("post", String(params.slug), {});
 
-  const formatedPost = {
+  const formatedPost:Post = {
     first_publication_date: format(new Date(postContent.first_publication_date), "d MMM yyyy", {locale: ptBR}),
     data: {
       title: postContent.data.title,
@@ -188,13 +143,13 @@ export const getStaticProps = async ({params}) => {
         url: String(postContent.data.banner.url)
       },
       author: postContent.data.author,
-      content: postContent.data.content,
+      content: postContent.data.content
     }
   }
-
   return {
     props: {
       post: formatedPost 
-    }
+    },
+    revalidate: 60 * 30
   }
 };
