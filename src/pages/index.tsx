@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import styles from './home.module.scss';
 import {MdDateRange} from "react-icons/md";
 import {FiUser} from "react-icons/fi";
@@ -45,14 +46,14 @@ export default function Home({postsPagination} : HomeProps) {
         );
         const newPosts = pagePostsResponse.results.map(post => {
 
-          const formatedDate = 
-          format(new Date(post.first_publication_date), 
-          "d MMM yyyy", 
-          {locale: ptBR});
+          // const formatedDate = 
+          // format(new Date(post.first_publication_date), 
+          // "d MMM yyyy", 
+          // {locale: ptBR});
       
           return {
             uid: post.uid,
-            first_publication_date: formatedDate,
+            first_publication_date: post.first_publication_date,
             data: {
               title: post.data.title,
               subtitle: post.data.subtitle,
@@ -76,15 +77,16 @@ export default function Home({postsPagination} : HomeProps) {
           post => 
           (
             <div key= {post.uid} className={styles.postCardContainer}>
-              <a className={styles.postCardHeading} href={`/post/${post.uid}`}>{post.data.title}</a>
-
+              <Link href={`/post/${post.uid}`}>
+              <a className={styles.postCardHeading} >{post.data.title}</a>
+              </Link>
               <span className={styles.postSubtitle}>{post.data.subtitle}</span>
 
               <div className={styles.postCardFooter}>
                 
                 <span className={styles.uploadedAt}>
                   <MdDateRange color="#BBBBBB" size="20px"/>
-                  {post.first_publication_date}
+                  {format(new Date(post.first_publication_date), "d MMM yyyy", {locale: ptBR}) }
                 </span>
     
                 <span className={styles.userInfo}>
@@ -118,14 +120,14 @@ export const getStaticProps: GetStaticProps = async () => {
   );
 
   const posts = postsResponse.results.map(post => {
-    const formatedDate = 
-    format(new Date(post.first_publication_date), 
-    "d MMM yyyy", 
-    {locale: ptBR});
+    // const formatedDate = 
+    // format(new Date(post.first_publication_date), 
+    // "d MMM yyyy", 
+    // {locale: ptBR});
 
     return {
       uid: post.uid,
-      first_publication_date: formatedDate,
+      first_publication_date: post.first_publication_date,
       data: {
         title: post.data.title,
         subtitle: post.data.subtitle,
