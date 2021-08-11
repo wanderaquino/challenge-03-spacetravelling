@@ -88,7 +88,8 @@ export default function Post({post}: PostProps) {
       <img src={post.data.banner.url}/>
     </div>
 
-    <article className={styles.postContent}>
+    <article key={post.data.title} className={styles.postContent}>
+
       <div className={styles.postHeader}>
         <h1>{post.data.title}</h1>
         <div className={styles.postInfo}>
@@ -106,15 +107,14 @@ export default function Post({post}: PostProps) {
           </span>
         </div>
       </div>
+
       {post.data.content.map(content => (
-        <>
-        <article className={styles.postText}>
+        <article key = {content.heading} className={styles.postText}>
           <h2>{content.heading}</h2>
           <div dangerouslySetInnerHTML = {
             {__html: RichText.asHtml(content.body)}
           }></div>
         </article>
-        </>
       ))}
     </article>
     </>
