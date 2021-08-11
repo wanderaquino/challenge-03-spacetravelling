@@ -67,7 +67,7 @@ export default function Post({post}: PostProps) {
 
     }, []);
     
-    return Math.round((headingWords.length + textWords.length) / 200);
+    return Math.ceil((headingWords.length + textWords.length) / 200);
   }
 
   const readTime = getReadingTime(post);
@@ -94,7 +94,7 @@ export default function Post({post}: PostProps) {
         <div className={styles.postInfo}>
           <span className={styles.uploadedAt}>
             <MdDateRange color="#BBBBBB" size="20px"/>
-            {post.first_publication_date}
+            {format(new Date(post.first_publication_date), "d MMM yyyy", {locale: ptBR}) }
           </span>
           <span className={styles.userInfo}>
             <FiUser color="#BBBBBB" size="20px"/>
@@ -144,10 +144,12 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const prismic = getPrismicClient();
   const postContent = await prismic.getByUID("post", String(params.slug), {});
 
-  const formatedPost:Post = {
-    first_publication_date: format(new Date(postContent.first_publication_date), "d MMM yyyy", {locale: ptBR}),
+  const formatedPost = {
+    uid: postContent.uid,
+    first_publication_date: postContent.first_publication_date,
     data: {
       title: postContent.data.title,
+      subtitle: postContent.data.subtitle,
       banner: {
         url: String(postContent.data.banner.url)
       },
