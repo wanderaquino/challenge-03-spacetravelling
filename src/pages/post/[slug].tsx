@@ -1,10 +1,12 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-
+import { useRouter } from 'next/router';
 import { getPrismicClient } from '../../services/prismic';
 
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
 import {MdDateRange} from "react-icons/md";
+import {VscLoading} from "react-icons/vsc";
+
 import {FiUser} from "react-icons/fi";
 import {BiTime} from "react-icons/bi";
 import Head from "next/head";
@@ -36,6 +38,7 @@ interface PostProps {
 }
 
 export default function Post({post}: PostProps) {
+  const router = useRouter();
 
   function getReadingTime (post) {
 
@@ -75,6 +78,12 @@ export default function Post({post}: PostProps) {
       <title>{post.data.title} | SpaceTravelling</title>
     </Head>
 
+    {router.isFallback && (
+      <div>
+        <VscLoading color="#BBBBBB" size="20px"></VscLoading>
+        Carregando...
+      </div>
+    )}
     <div className={styles.postBanner}>
       <img src={post.data.banner.url}/>
     </div>
