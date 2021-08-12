@@ -6,7 +6,6 @@ import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
 import {MdDateRange} from "react-icons/md";
 import {VscLoading} from "react-icons/vsc";
-
 import {FiUser} from "react-icons/fi";
 import {BiTime} from "react-icons/bi";
 import Head from "next/head";
@@ -18,6 +17,7 @@ import { RichText } from 'prismic-dom';
 
 interface Post {
   first_publication_date: string | null;
+  last_publication_date: string | null
   data: {
     title: string;
     banner: {
@@ -101,10 +101,20 @@ export default function Post({post}: PostProps) {
             <FiUser color="#BBBBBB" size="20px"/>
             {post.data.author}
           </span>
-          <span className={styles.userInfo}>
+          <span className={styles.readTime}>
             <BiTime color="#BBBBBB" size="20px"/>
             {readTime} min
           </span>
+          {post.last_publication_date &&
+            (
+              <span className={styles.lastEdited}>
+              * {`editado em 
+                  ${format(new Date(post.last_publication_date), "d MMM yyyy", {locale: ptBR})},
+                  às ${format(new Date(post.last_publication_date), "HH:mm", {locale: ptBR})}
+                  `}.
+            </span>
+            )
+          }
         </div>
       </div>
 
@@ -143,10 +153,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const prismic = getPrismicClient();
   const postContent = await prismic.getByUID("post", String(params.slug), {});
-
+  console.log(JSON.stringify(postContent, null, 2));
   const formatedPost = {
     uid: postContent.uid,
     first_publication_date: postContent.first_publication_date,
+    last_publication_date: postContent.last_publication_date,
     data: {
       title: postContent.data.title,
       subtitle: postContent.data.subtitle,
