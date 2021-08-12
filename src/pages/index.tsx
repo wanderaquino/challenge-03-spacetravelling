@@ -45,7 +45,7 @@ export default function Home({postsPagination} : HomeProps) {
           response => response.json()
         );
         const newPosts = pagePostsResponse.results.map(post => {
-                
+
           return {
             uid: post.uid,
             first_publication_date: post.first_publication_date,
@@ -115,11 +115,6 @@ export const getStaticProps: GetStaticProps = async () => {
   );
 
   const posts = postsResponse.results.map(post => {
-    // const formatedDate = 
-    // format(new Date(post.first_publication_date), 
-    // "d MMM yyyy", 
-    // {locale: ptBR});
-
     return {
       uid: post.uid,
       first_publication_date: post.first_publication_date,
