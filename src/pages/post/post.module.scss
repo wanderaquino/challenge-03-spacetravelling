@@ -127,12 +127,34 @@
     & > .footerPostNavigation {
         margin-top: 1rem;
         margin-bottom: 1rem;
-        display: flex;
-        justify-content: space-between;
     }
 
-    .nextPostButton,
-    .prevPostButton {
-        
+    .footerPostNavigation {
+        display: flex;
+        justify-content: space-between;
+
+        & > .nextNav {
+            text-align: right;
+        }
+
+        .prevNav,
+        .nextNav {
+            display: flex;
+            flex-direction: column;
+            gap: .7rem;
+            font-size: 1.125rem;
+            font-weight: normal;
+            color: var(--white-900);
+            background: none;
+            border: none;
+    
+            a {
+                text-decoration: none;
+                color: var(--fucsia-600);
+                font-weight: 600;
+                line-height: 1.1875rem;
+                font-size: 1rem;
+            }
+        }
     }
 }

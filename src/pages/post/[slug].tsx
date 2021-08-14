@@ -9,6 +9,7 @@ import {VscLoading} from "react-icons/vsc";
 import {FiUser} from "react-icons/fi";
 import {BiTime} from "react-icons/bi";
 import Head from "next/head";
+import Link from "next/link";
 import Prismic from "@prismicio/client"
 import { format } from 'date-fns';
 import ptBR from "date-fns/locale/pt-BR"
@@ -131,8 +132,18 @@ export default function Post({post}: PostProps) {
 
     <footer className={styles.postFooter}>
       <nav className={styles.footerPostNavigation}>
-        <button className={styles.prevButton} type="button">Prev</button>
-        <button className={styles.nextButton} type="button">Next</button>
+        <div className={styles.prevNav}>
+          Titulo do Post Prev
+          <Link href="">
+            <a className={styles.navLink}>Post Anterior</a>
+          </Link>
+        </div>
+        <div className={styles.nextNav}>
+          Titulo do Post Next
+          <Link href="">
+            <a className={styles.navLink}>Próximo Post</a>
+          </Link>
+        </div>
       </nav>
     </footer>
   </>
