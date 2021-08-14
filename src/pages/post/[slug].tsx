@@ -14,7 +14,6 @@ import { format } from 'date-fns';
 import ptBR from "date-fns/locale/pt-BR"
 import { RichText } from 'prismic-dom';
 
-
 interface Post {
   first_publication_date: string | null;
   last_publication_date: string | null
@@ -73,61 +72,67 @@ export default function Post({post}: PostProps) {
   const readTime = getReadingTime(post);
 
   return (
-    <>
+  <>
     <Head>
       <title>{post.data.title} | SpaceTravelling</title>
     </Head>
-
-    {router.isFallback && (
-      <div>
-        <VscLoading color="#BBBBBB" size="20px"></VscLoading>
-        Carregando...
-      </div>
-    )}
-    <div className={styles.postBanner}>
-      <img src={post.data.banner.url}/>
-    </div>
-
-    <article key={post.data.title} className={styles.postContent}>
-
-      <div className={styles.postHeader}>
-        <h1>{post.data.title}</h1>
-        <div className={styles.postInfo}>
-          <span className={styles.uploadedAt}>
-            <MdDateRange color="#BBBBBB" size="20px"/>
-            {format(new Date(post.first_publication_date), "d MMM yyyy", {locale: ptBR}) }
-          </span>
-          <span className={styles.userInfo}>
-            <FiUser color="#BBBBBB" size="20px"/>
-            {post.data.author}
-          </span>
-          <span className={styles.readTime}>
-            <BiTime color="#BBBBBB" size="20px"/>
-            {readTime} min
-          </span>
-          {post.last_publication_date &&
-            (
-              <span className={styles.lastEdited}>
-              * {`editado em 
-                  ${format(new Date(post.last_publication_date), "d MMM yyyy", {locale: ptBR})},
-                  às ${format(new Date(post.last_publication_date), "HH:mm", {locale: ptBR})}
-                  `}.
-            </span>
-            )
-          }
+    <main className={styles.mainContent}>
+      {router.isFallback && (
+        <div>
+          <VscLoading color="#BBBBBB" size="20px"></VscLoading>
+          Carregando...
         </div>
+      )}
+      <div className={styles.postBanner}>
+        <img src={post.data.banner.url}/>
       </div>
 
-      {post.data.content.map(content => (
-        <article key = {content.heading} className={styles.postText}>
-          <h2>{content.heading}</h2>
-          <div dangerouslySetInnerHTML = {
-            {__html: RichText.asHtml(content.body)}
-          }></div>
-        </article>
-      ))}
-    </article>
-    </>
+      <article key={post.data.title} className={styles.postContent}>
+
+        <div className={styles.postHeader}>
+          <h1>{post.data.title}</h1>
+          <div className={styles.postInfo}>
+            <span className={styles.uploadedAt}>
+              <MdDateRange color="#BBBBBB" size="20px"/>
+              {format(new Date(post.first_publication_date), "d MMM yyyy", {locale: ptBR}) }
+            </span>
+            <span className={styles.userInfo}>
+              <FiUser color="#BBBBBB" size="20px"/>
+              {post.data.author}
+            </span>
+            <span className={styles.readTime}>
+              <BiTime color="#BBBBBB" size="20px"/>
+              {readTime} min
+            </span>
+            {post.last_publication_date &&
+              (
+                <span className={styles.lastEdited}>
+                * {`editado em 
+                    ${format(new Date(post.last_publication_date), "d MMM yyyy", {locale: ptBR})},
+                    às ${format(new Date(post.last_publication_date), "HH:mm", {locale: ptBR})}
+                    `}.
+              </span>
+              )
+            }
+          </div>
+        </div>
+
+        {post.data.content.map(content => (
+          <article key = {content.heading} className={styles.postText}>
+            <h2>{content.heading}</h2>
+            <div dangerouslySetInnerHTML = {
+              {__html: RichText.asHtml(content.body)}
+            }></div>
+          </article>
+        ))}
+      </article>
+      <div className={styles.separator}></div>
+    </main>
+
+    <footer className={styles.postFooter}>
+      Bla bla bla
+    </footer>
+  </>
   )
 }
 
