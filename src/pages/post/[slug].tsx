@@ -130,7 +130,10 @@ export default function Post({post}: PostProps) {
     </main>
 
     <footer className={styles.postFooter}>
-      Bla bla bla
+      <nav className={styles.footerPostNavigation}>
+        <button className={styles.prevButton} type="button">Prev</button>
+        <button className={styles.nextButton} type="button">Next</button>
+      </nav>
     </footer>
   </>
   )
