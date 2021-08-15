@@ -147,7 +147,10 @@
             color: var(--white-900);
             font-size: 1rem;
 
-            a {
+            & > .navLink {
+                padding-top: .7rem;            }
+
+            .navLink {
                 text-decoration: none;
                 color: var(--fucsia-600);
                 font-weight: 600;
