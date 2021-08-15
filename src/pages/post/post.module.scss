@@ -1,6 +1,6 @@
 .mainContent {
     padding: 0 2rem;
-
+    
     .postBanner {
         margin-bottom: 5rem;
         width: 100%;
@@ -116,38 +116,37 @@
     }
     .separator {
         width: 100%;
+        max-width: 720px;
+        margin: 0 auto;
         height: 1px;
         background-color: var(--gray-800);
     }
 }
 .postFooter {
-    margin: 0 auto;
+    width: 100%;
     padding: 0 2rem;
 
     & > .footerPostNavigation {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
+        margin: 1rem auto 1rem auto;
     }
 
     .footerPostNavigation {
         display: flex;
         justify-content: space-between;
-
-        & > .nextNav {
-            text-align: right;
-        }
+        width: 100%;
+        max-width: 720px;
 
         .prevNav,
         .nextNav {
             display: flex;
             flex-direction: column;
-            gap: .7rem;
+            justify-content: space-between;
+            height: 7rem;
             font-size: 1.125rem;
             font-weight: normal;
             color: var(--white-900);
-            background: none;
-            border: none;
-    
+            font-size: 1rem;
+
             a {
                 text-decoration: none;
                 color: var(--fucsia-600);
@@ -155,6 +154,14 @@
                 line-height: 1.1875rem;
                 font-size: 1rem;
             }
+        }
+        
+        .nextNav {
+            text-align: right;
+        }
+
+        .prevNav {
+            text-align: left;
         }
     }
 }

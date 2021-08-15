@@ -17,7 +17,15 @@ import { RichText } from 'prismic-dom';
 
 interface Post {
   first_publication_date: string | null;
-  last_publication_date: string | null
+  last_publication_date: string | null,
+  previousPost: null | {
+    title: string,
+    slug: string
+  },
+  nextPost: null | {
+    title: string,
+    slug: string
+  },
   data: {
     title: string;
     banner: {
@@ -39,9 +47,9 @@ interface PostProps {
 
 export default function Post({post}: PostProps) {
   const router = useRouter();
+  console.log(JSON.stringify(post, null, 2));
 
   function getReadingTime (post) {
-
     //Heading Counter
     const headingWords = post.data.content.reduce((acc, content) => {
       const headings = content.heading.split(" ");
@@ -132,18 +140,22 @@ export default function Post({post}: PostProps) {
 
     <footer className={styles.postFooter}>
       <nav className={styles.footerPostNavigation}>
-        <div className={styles.prevNav}>
-          Titulo do Post Prev
-          <Link href="">
+        {post.previousPost ? ( 
+          <div className={styles.prevNav}>
+          {post.previousPost.title}
+          <Link href={`/post/${post.previousPost.slug}`}>
             <a className={styles.navLink}>Post Anterior</a>
           </Link>
-        </div>
-        <div className={styles.nextNav}>
-          Titulo do Post Next
-          <Link href="">
+        </div>) : (<div></div>)
+        }
+        {post.nextPost ? ( 
+          <div className={styles.nextNav}>
+          {post.nextPost.title}
+          <Link href={`/post/${post.nextPost.slug}`}>
             <a className={styles.navLink}>Próximo Post</a>
           </Link>
-        </div>
+        </div>) : (<div></div>)
+        }
       </nav>
     </footer>
   </>
@@ -158,7 +170,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   const postResponseSlug = posts.results.map(post => {
       return {
-        params: { slug: post.uid
+        params: {
+          slug: post.uid 
         }
       }
   });
@@ -171,12 +184,31 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const prismic = getPrismicClient();
+
   const postContent = await prismic.getByUID("post", String(params.slug), {});
-  console.log(JSON.stringify(postContent, null, 2));
+
+  const prevPost = (await prismic.query(
+    Prismic.Predicates.at("document.type","post"),
+    { pageSize : 1 , after : `${postContent.id}`, orderings: '[document.first_publication_date]'}
+  )).results[0];
+
+  const nextPost = (await prismic.query(
+    Prismic.Predicates.at("document.type","post"),
+    { pageSize : 1 , after : `${postContent.id}`, orderings: '[document.first_publication_date desc]'}
+  )).results[0];
+
   const formatedPost = {
     uid: postContent.uid,
     first_publication_date: postContent.first_publication_date,
     last_publication_date: postContent.last_publication_date,
+    previousPost: prevPost && {
+      title: prevPost.data.title,
+      slug: prevPost.uid
+    } || null,
+    nextPost: nextPost && {
+      title: nextPost.data.title,
+      slug: nextPost.uid
+    } || null,
     data: {
       title: postContent.data.title,
       subtitle: postContent.data.subtitle,
