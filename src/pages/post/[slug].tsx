@@ -47,7 +47,6 @@ interface PostProps {
 
 export default function Post({post}: PostProps) {
   const router = useRouter();
-  console.log(JSON.stringify(post, null, 2));
 
   function getReadingTime (post) {
     //Heading Counter
