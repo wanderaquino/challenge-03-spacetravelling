@@ -5,11 +5,13 @@ export default function Header() {
   return (
     <>
       <header className={styles.headerContainer}>
-        <Link href="/">
-            <a className={styles.headerContent}>
-            <img src="/images/logo.svg" alt="logo"></img>
-            </a>
-        </Link>
+        <div className={styles.headerContent}>
+          <Link href="/">
+              <a className={styles.headerContent}>
+              <img src="/images/logo.svg" alt="logo"></img>
+              </a>
+          </Link>
+        </div>
       </header>
     </>
   )

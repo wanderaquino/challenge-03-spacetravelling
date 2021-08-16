@@ -1,9 +1,14 @@
 .headerContainer {
     width: 100%;
-    max-width: 720px;
+    padding: 0 2rem;
     margin: 0 auto;
     height: 8rem;
     display: flex;
     align-items: center;
-    padding: 0 2rem;
+
+    & > .headerContent {
+        width: inherit;
+        max-width: 720px;
+        margin: 0 auto;
+    }
 }
