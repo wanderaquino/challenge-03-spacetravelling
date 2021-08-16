@@ -181,10 +181,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 };
 
-export const getStaticProps: GetStaticProps = async ({params}) => {
+export const getStaticProps: GetStaticProps = async ({params, previewData}) => {
   const prismic = getPrismicClient();
+  const refPreview = previewData ? previewData.ref : null;
+  
+  const postContent = previewData ? await prismic.getByUID("post", String(params.slug), {ref: refPreview}) : 
+  await prismic.getByUID("post", String(params.slug), {});
 
-  const postContent = await prismic.getByUID("post", String(params.slug), {});
 
   const prevPost = (await prismic.query(
     Prismic.Predicates.at("document.type","post"),
@@ -218,10 +221,16 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       content: postContent.data.content
     }
   }
+
   return {
     props: {
-      post: formatedPost 
+      post: formatedPost,
+      preview:
+      {
+        activeRef: refPreview
+      }
     },
     revalidate: 60 * 30
   }
+
 };
