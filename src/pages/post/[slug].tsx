@@ -43,11 +43,19 @@ interface Post {
 
 interface PostProps {
   post: Post;
+  isPreview: boolean
 }
 
-export default function Post({post}: PostProps) {
+export default function Post({post, isPreview}: PostProps) {
+  console.log(isPreview);
   const router = useRouter();
-
+  
+  async function exitPreviewMode(){
+    const exit = await fetch("/api/exit-preview")
+      .then(response => response)
+      console.log(exit);
+  }
+  
   function getReadingTime (post) {
     //Heading Counter
     const headingWords = post.data.content.reduce((acc, content) => {
@@ -157,9 +165,13 @@ export default function Post({post}: PostProps) {
         }
       </nav>
       <div className = {styles.commentContainer}></div>
-      <button className = {styles.exitPostPreview}>
-        Sair do modo Preview
-      </button>
+      {isPreview && (
+        <Link href="/api/exit-preview">
+          <a className={styles.exitPostPreview}>
+          Sair do modo Preview
+          </a>
+        </Link>
+      )}
     </footer>
   </>
   )
@@ -229,6 +241,7 @@ export const getStaticProps: GetStaticProps = async ({params, previewData}) => {
   return {
     props: {
       post: formatedPost,
+      isPreview: refPreview ? true : false,
       preview:
       {
         activeRef: refPreview
