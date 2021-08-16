@@ -86,13 +86,14 @@
             }
     
             ul {
-                padding: 0 2rem;
+                padding-left: 2rem;
                 margin-top: 1rem;
                 margin-bottom: 1rem;
             }
     
             ul, li {
                 color: var(--white-900);
+                text-align: justify;
             }
             
             p {
