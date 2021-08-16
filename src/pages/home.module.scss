@@ -27,6 +27,11 @@
         line-height: 2.118rem;
         text-decoration: none;
 
+        &:hover{
+            color: var(--fucsia-600);
+            transition: 0.2s;
+        }
+
         & + .postSubtitle {
             margin-top: 1rem;
         }
