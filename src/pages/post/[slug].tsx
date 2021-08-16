@@ -156,6 +156,10 @@ export default function Post({post}: PostProps) {
         </div>) : (<div></div>)
         }
       </nav>
+      <div className = {styles.commentContainer}></div>
+      <button className = {styles.exitPostPreview}>
+        Sair do modo Preview
+      </button>
     </footer>
   </>
   )

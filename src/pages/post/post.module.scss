@@ -123,18 +123,17 @@
     }
 }
 .postFooter {
-    width: 100%;
     padding: 0 2rem;
 
     & > .footerPostNavigation {
+
         margin: 1rem auto 1rem auto;
     }
 
     .footerPostNavigation {
+        max-width: 720px;
         display: flex;
         justify-content: space-between;
-        width: 100%;
-        max-width: 720px;
 
         .prevNav,
         .nextNav {
@@ -147,8 +146,9 @@
             color: var(--white-900);
             font-size: 1rem;
 
-            & > .navLink {
-                padding-top: .7rem;            }
+            & > .navLink{
+                padding-top: .7rem;
+            }
 
             .navLink {
                 text-decoration: none;
@@ -166,5 +166,22 @@
         .prevNav {
             text-align: left;
         }
+    }
+
+    & .exitPostPreview {
+        margin: 1rem auto;
+    }
+
+    .exitPostPreview {
+        display: block;
+        width: 100%;
+        max-width: 720px;
+        cursor: pointer;
+        border: none;
+        background-color: var(--white-900);
+        color: #1A1D23;
+        padding: 1rem 0;
+        font-weight: 600;
+
     }
 }
