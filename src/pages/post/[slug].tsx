@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { getPrismicClient } from '../../services/prismic';
+import Comment from "../../components/Comment";
 
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
@@ -164,7 +165,9 @@ export default function Post({post, isPreview}: PostProps) {
         </div>) : (<div></div>)
         }
       </nav>
-      <div className = {styles.commentContainer}></div>
+      <div className = {styles.commentContainer}>
+        <Comment />
+      </div>
       {isPreview && (
         <Link href="/api/exit-preview">
           <a className={styles.exitPostPreview}>

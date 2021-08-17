@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from './home.module.scss';
 import {MdDateRange} from "react-icons/md";
 import {FiUser} from "react-icons/fi";
-import next, { GetStaticProps } from 'next';
+import { GetStaticProps } from 'next';
 import { getPrismicClient } from '../services/prismic';
 import Prismic from "@prismicio/client";
 import {format} from "date-fns";
