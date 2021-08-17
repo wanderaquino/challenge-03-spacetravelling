@@ -48,7 +48,7 @@ interface PostProps {
 }
 
 export default function Post({post, isPreview}: PostProps) {
-  console.log(isPreview);
+  
   const router = useRouter();
   
   async function exitPreviewMode(){
